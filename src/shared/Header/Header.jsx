@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import { useCallback } from "react";
 import { Link } from "react-router-dom";
+import Avatar from "./Avatar";
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,7 @@ const Header = () => {
             >
               <AiOutlineMenu />
               <div className="hidden md:block">
-                {/* <Avatar /> */}
+                {user ? <img className="w-6 h-6 rounded-full" src={user?.photoURL} alt="" /> : <Avatar />}
               </div>
             </div>
           </div>

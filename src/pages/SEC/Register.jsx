@@ -1,17 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const imgBB = `${import.meta.env.VITE_IMGBB}`;
 console.log(imgBB);
 const Register = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
   const { signInWithGoogle, updateUserProfile, createUser, loading } =
     useContext(AuthContext);
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
       .then((res) => {
+        navigate(from);
         console.log(res.user);
       })
       .catch((error) => console.log(error.message));
@@ -38,6 +43,7 @@ const Register = () => {
               updateUserProfile(name, data.data.display_url)
                 .then((res) => {
                   console.log("Profile Updated");
+                  navigate(from);
                 })
                 .catch((error) => console.log(error.message));
             }
@@ -117,12 +123,23 @@ const Register = () => {
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="bg-rose-500 w-full rounded-md py-3 text-white"
-            >
-              Continue
-            </button>
+            {loading ? (
+              <div className="">
+                <button
+                  className="bg-rose-500 w-full rounded-md py-3 text-white"
+                  disabled
+                >
+                  <TbFidgetSpinner className="mx-auto animate-spin" size={24} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="bg-rose-500 w-full rounded-md py-3 text-white"
+              >
+                Continue
+              </button>
+            )}
           </div>
         </form>
         <div className="flex items-center pt-4 space-x-1">

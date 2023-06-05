@@ -1,11 +1,17 @@
-import Header from "../shared/Header/Header"
+import { Outlet } from "react-router-dom";
+import Footer from "../shared/Footer/Footer";
+import Header from "../shared/Header/Header";
 
 const Main = () => {
   return (
-    <div>
+    <>
       <Header />
-    </div>
-  )
-}
+      <div className="min-h-[calc(100vh-100px)]">
+        <Outlet />
+      </div>
+      <Footer />
+    </>
+  );
+};
 
-export default Main
+export default Main;

@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const LogIn = () => {
-  const { signIn, signInWithGoogle } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from || "/";
+  const { signIn, signInWithGoogle, loading } = useContext(AuthContext);
   const handleSignIn = (e) => {
     e.preventDefault();
     const middle = e.target;
@@ -12,11 +16,15 @@ const LogIn = () => {
     const password = middle.password.value;
     signIn(email, password)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        navigate(from);
+        console.log(data);
+      });
   };
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
       .then((res) => {
+        navigate(from);
         console.log(res.user);
       })
       .catch((error) => console.log(error.message));
@@ -31,6 +39,7 @@ const LogIn = () => {
           </p>
         </div>
         <form
+          onSubmit={handleSignIn}
           noValidate=""
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
@@ -68,12 +77,20 @@ const LogIn = () => {
           </div>
 
           <div>
-            <button
-              type="submit"
-              className="bg-rose-500 w-full rounded-md py-3 text-white"
-            >
-              Continue
-            </button>
+            {loading ? (
+              <div className="">
+                <button className="bg-rose-500 w-full rounded-md py-3 text-white" disabled>
+                  <TbFidgetSpinner className="mx-auto animate-spin" size={24} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="bg-rose-500 w-full rounded-md py-3 text-white"
+              >
+                Continue
+              </button>
+            )}
           </div>
         </form>
         <div className="space-y-1">
