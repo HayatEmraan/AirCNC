@@ -14,9 +14,9 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center">
       {/* aircnc logo */}
-      <div>
+      <Link to="/">
         <img className="w-32" src={Logo} alt="" />
-      </div>
+      </Link>
       <div>
         {/* search bar */}
         <div className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer">

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import HeartButton from "../Button/HeartButton";
-import Loader from "../Loader/Loader";
 
 const Card = ({ room }) => {
   return (
